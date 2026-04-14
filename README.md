@@ -8,7 +8,6 @@ Overview
 This project simulates a production-style internal tool used by organizations such as legal offices, social services, or support teams to manage cases from creation to resolution.
 
 It focuses on:
-
     Clean backend architecture
     Practical CRUD operations
     Role-based permissions
@@ -18,11 +17,11 @@ It focuses on:
 ## Features
 
 **Core Functionality**
-    [] Create, view, update, and delete cases
-    [] Assign cases to users (case workers/admins)
-    [] Track case status (Open, In Progress, Closed)
-    [] Add notes or updates to cases (case history)
-    [] Filter and search cases
+    - [] Create, view, update, and delete cases
+    - [] Assign cases to users (case workers/admins)
+    - [] Track case status (Open, In Progress, Closed)
+    - [] Add notes or updates to cases (case history)
+    - [] Filter and search cases
 
 **User Roles**
     Admin
