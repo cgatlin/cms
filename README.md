@@ -63,7 +63,7 @@ It focuses on:
 - Case workers can update assigned cases
 - Use filters/search to manage large case lists
 
-**Project Goals**
+## Project Goals
 
 This project is part of a structured career restart plan and demonstrates:
 
