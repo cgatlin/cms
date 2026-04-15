@@ -1,0 +1,29 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Cases;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+
+class CaseSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+        $users = User::where('role', 'case_worker')->pluck('id');
+
+        for ($i = 0; $i < 20; $i++) {
+            Cases::create([
+                'title' => "Case #$i",
+                'description' => 'Sample case description',
+                'status' => 'open',
+                'assigned_to' => $users->random(),
+                'created_by' => 1, // admin
+            ]);
+        }
+    }
+}

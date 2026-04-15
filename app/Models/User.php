@@ -33,4 +33,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function assignedCases()
+    {
+        return $this->hasMany(Cases::class, 'assigned_to');
+    }
+
+    public function createdCases()
+    {
+        return $this->hasMany(Cases::class, 'created_by');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
 }
