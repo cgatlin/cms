@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('case_notes', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('case_id')->constrained('cases')->cascadeOnDelete();
+            $table->foreignId('case_id')->constrained('case_records')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
 
             $table->text('note');

@@ -11,11 +11,11 @@ class CaseNote extends Model
     //
     public function case()
     {
-        return $this->belongsTo(Cases::class);
+        return $this->belongsTo(CaseRecords::class);
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(CaseRecords::class);
     }
 }

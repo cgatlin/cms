@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Cases;
+use App\Models\CaseRecords;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,7 +17,7 @@ class CaseSeeder extends Seeder
         $users = User::where('role', 'case_worker')->pluck('id');
 
         for ($i = 0; $i < 20; $i++) {
-            Cases::create([
+            CaseRecords::create([
                 'title' => "Case #$i",
                 'description' => 'Sample case description',
                 'status' => 'open',

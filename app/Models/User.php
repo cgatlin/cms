@@ -36,12 +36,12 @@ class User extends Authenticatable
 
     public function assignedCases()
     {
-        return $this->hasMany(Cases::class, 'assigned_to');
+        return $this->hasMany(CaseRecords::class, 'assigned_to');
     }
 
     public function createdCases()
     {
-        return $this->hasMany(Cases::class, 'created_by');
+        return $this->hasMany(CaseRecords::class, 'created_by');
     }
 
     public function isAdmin(): bool

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CaseNote;
-use App\Models\Cases;
+use App\Models\CaseRecords;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +15,7 @@ class CaseNoteSeeder extends Seeder
     public function run(): void
     {
         //
-        $cases = Cases::all();
+        $cases = CaseRecords::all();
         $users = User::all();
 
         foreach ($cases as $case) {
