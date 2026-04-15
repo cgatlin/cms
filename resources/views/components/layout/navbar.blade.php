@@ -1,10 +1,10 @@
 <div class="navbar bg-base-100 shadow-sm p-4">
   <div class="flex-1"> 
     <a class="btn btn-ghost text-xl" href="/">
-      <div class="w-full h-20 overflow-hidden">
+      <div class="w-auto h-20 overflow-hidden">
         <img src="{{ asset('build/assets/img/logo.png') }}" 
-          class="w-full h-full object-cover object-center"
-          alt="Focused Image">
+          class="w-full h-full object-scale-down object-center"
+          alt="Logo">
       </div>
       <div>
         <p>Imperial Valley Family Services</p>
