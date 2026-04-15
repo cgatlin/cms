@@ -1,7 +1,4 @@
 <x-layout>
-    <div class="bg-secondary p-4">
-        
-    </div>
 
     <div class="list items-center">
         <img src="{{ asset('build/assets/img/logo2.png') }}" 

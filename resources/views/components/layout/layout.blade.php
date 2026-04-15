@@ -23,10 +23,21 @@
         
     </head>
 
-    <body class="">
+    <body class="bg-primary text-primary text-primary-content">
         <x-layout.navbar />
         
         <main class="main-content text-center">
+            <div class="p-4">
+                @auth
+                    <ul class="menu menu-horizontal px-1">
+                        <li><a class="link text-lg" href="/dashboard">Dashboard</a></li>
+                        <li><a class="link text-lg" href="/clients">Clients</a></li>
+                        <li><a class="link text-lg" href="/cases">Cases</a></li>
+                        <li><a class="link text-lg" href="/reports">Reports</a></li>
+                        <li><a class="link text-lg" href="/users">Users</a></li> 
+                    </ul>
+                @endauth
+            </div>
             {{ $slot }}
         </main>    
         <footer class="footer flex items-end justify-end p-4 bg-secondary">

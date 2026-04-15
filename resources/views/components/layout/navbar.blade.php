@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 shadow-sm p-4">
+<div class="navbar bg-base-100 text-base-content shadow-sm p-4">
   <div class="flex-1"> 
     <a class="btn btn-ghost text-xl" href="/">
       <div class="w-auto h-20 overflow-hidden">
@@ -18,7 +18,6 @@
             <li><a class="btn btn-soft btn-secondary" href="/register">Sign up</a></li>
         @endguest
         @auth
-            <li><a class="link link-secondary text-lg" href="/dashboard">Dashboard</a></li>
             <li>
                 <form action="/logout" method="POST" id="logout">
                     @csrf
