@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     //
-    public function assignedCases()
+    public function cases()
     {
         return $this->hasMany(CaseRecords::class, 'client_id');
     }
