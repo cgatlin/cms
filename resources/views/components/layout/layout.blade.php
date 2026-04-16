@@ -1,5 +1,6 @@
 @props ([
     'title' => 'Imperial Valley Family Services',
+    'active' => null,
 ])
 
 
@@ -27,14 +28,14 @@
         <x-layout.navbar />
         
         <main class="main-content text-center">
-            <div class="p-4">
+            <div class="p-4 border-b">
                 @auth
                     <ul class="menu menu-horizontal px-1">
-                        <li><a class="link text-lg" href="/dashboard">Dashboard</a></li>
-                        <li><a class="link text-lg" href="/clients">Clients</a></li>
-                        <li><a class="link text-lg" href="/cases">Cases</a></li>
-                        <li><a class="link text-lg" href="/reports">Reports</a></li>
-                        <li><a class="link text-lg" href="/users">Users</a></li> 
+                        <li><a class="link text-lg {{ $active === 'dashboard' ? 'bg-primary-content text-primary' : '' }}" href="/dashboard">Dashboard</a></li>
+                        <li><a class="link text-lg {{ $active === 'clients' ? 'bg-primary-content text-primary' : '' }}" href="/clients">Clients</a></li>
+                        <li><a class="link text-lg {{ $active === 'cases' ? 'bg-primary-content text-primary' : '' }}" href="/cases">Cases</a></li>
+                        <li><a class="link text-lg {{ $active === 'reports' ? 'bg-primary-content text-primary' : '' }}" href="/reports">Reports</a></li>
+                        <li><a class="link text-lg {{ $active === 'users' ? 'bg-primary-content text-primary' : '' }}" href="/users">Users</a></li> 
                     </ul>
                 @endauth
             </div>
