@@ -40,9 +40,9 @@ class StoreClientRequest extends FormRequest
             'first_name.required' => 'The first name is required.',
             'first_name.string' => 'The first name must be a string.',
             'first_name.max' => 'The first name may not be greater than 255 characters.',
-            'last_name.required' => 'The first name is required.',
-            'last_name.string' => 'The first name must be a string.',
-            'last_name.max' => 'The first name may not be greater than 255 characters.',
+            'last_name.required' => 'The last name is required.',
+            'last_name.string' => 'The last name must be a string.',
+            'last_name.max' => 'The last name may not be greater than 255 characters.',
 
             'email.email' => 'Must be an email',
             'email.max' => 'The email may not be greater than 255 characters.',
