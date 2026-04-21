@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
+#[Fillable([
+    'title',
+    'description',
+    'status',
+    'assigned_to',
+    'created_by',
+    'client_id',
+    'category_id',
+])]
 class CaseRecords extends Model
 {
-    //
     public function assignedUser()
     {
         return $this->belongsTo(User::class, 'assigned_to');
