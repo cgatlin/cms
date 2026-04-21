@@ -72,6 +72,7 @@
             <label class="block text-gray-700 text-sm font-bold mb-2" for="worker">
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"  type="text" name="worker" id="worker" list="workers" placeholder="Assign Worker...">
                 <datalist id="workers">
+                    <option data-id='' value='UnAssigned'>
                     @foreach ($workers as $worker)
                         <option data-id='{{ $worker->id }}' value='{{ $worker->name }}'>
                     @endforeach
@@ -101,6 +102,17 @@
                     }
                 });
             </script>
+
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
+                <select class="select shadow appearance-none border border-black rounded w-full py-2 px-3 bg-white text-gray-700" name="status" id="status" required>
+                    <option value="open">Open</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="closed">Closed</option>
+                </select>
+            </label>
+            @if ($errors->has('status'))
+                <div class="alert alert-outline max-sm:alert-vertical alert-error text-xs font-bold m-1"> {{ $errors->first('status') }} </div>
+            @endif
 
 
         <button class="btn btn-soft btn-primary" type="submit">Create Case</button>

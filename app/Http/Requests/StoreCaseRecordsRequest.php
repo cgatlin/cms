@@ -42,6 +42,7 @@ class StoreCaseRecordsRequest extends FormRequest
                     $query->where('role', 'case_worker');
                 }),
             ],
+            'status' => ['required', 'in:open,in_progress,closed'],
         ];
     }
 
@@ -63,6 +64,9 @@ class StoreCaseRecordsRequest extends FormRequest
             'client_id.exists' => 'Error finding Client',
 
             'assigned_to.exists' => 'Error finding Case Worker',
+
+            'status.required' => 'Title is required.',
+            'status.in' => 'Not a valid Status',
         ];
     }
 }

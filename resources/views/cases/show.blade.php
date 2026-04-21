@@ -27,6 +27,11 @@
         {{ $case->description }}
     </div>
 
+    <p>Client: {{ $case->client->first_name }} {{ $case->client->last_name }}</p>
+    <p>Category: {{ $case->category->name }}</p>
+    <p>Status: {{ $case->status }}</p>
+    <p>Assigned: {{ $case->assignedUser->name ?? 'Unassigned' }}</p>
+
     <ul class="list text-base-content flex items-center justify-center">
         @foreach ($case->notes as $note )
             <li class="list-row bg-base-100 rounded-box shadow-md p-2 m-2">

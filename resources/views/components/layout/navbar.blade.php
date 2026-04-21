@@ -15,7 +15,7 @@
     <ul class="menu menu-horizontal px-1">
         @guest
             <li><a class="btn btn-soft btn-secondary" href="/login">Login</a></li>
-            <li><a class="btn btn-soft btn-secondary" href="/register">Sign up</a></li>
+            {{-- <li><a class="btn btn-soft btn-secondary" href="/register">Sign up</a></li> --}}
         @endguest
         @auth
             <li>
