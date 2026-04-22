@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\CaseRecords;
 use App\Models\User;
+use App\Policies\CaseRecordsPolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -33,4 +35,8 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('admin-access', fn (User $user) => $user->role === 'admin');
     }
+
+    protected $policies = [
+        CaseRecords::class => CaseRecordsPolicy::class,
+    ];
 }

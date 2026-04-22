@@ -108,9 +108,9 @@
 
             <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
                 <select class="select shadow appearance-none border border-black rounded w-full py-2 px-3 bg-white text-gray-700" name="status" id="status" required value="{{ $caseRecord->status }}">
-                    <option value="open">Open</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="closed">Closed</option>
+                    <option @selected($caseRecord->status === "open") value="open">Open</option>
+                    <option @selected($caseRecord->status === "in_progress") value="in_progress">In Progress</option>
+                    <option @selected($caseRecord->status === "closed") value="closed">Closed</option>
                 </select>
             </label>
             @if ($errors->has('status'))

@@ -9,17 +9,24 @@ use App\Models\CaseRecords;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 
 class CaseRecordsController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        $caseRecords = CaseRecords::all();
+        if (auth()->user()->isAdmin()) {
+            $caseRecords = CaseRecords::all();
+        } else {
+            $caseRecords = CaseRecords::where('assigned_to', auth()->id())->get();
+        }
 
         return view('cases.index', ['caseRecords' => $caseRecords]);
     }
@@ -30,6 +37,8 @@ class CaseRecordsController extends Controller
     public function create()
     {
         //
+        $this->authorize('create', CaseRecords::class);
+
         $clients = Client::all();
         $categories = Category::all();
         $workers = User::where('role', 'case_worker')->get();
@@ -43,6 +52,7 @@ class CaseRecordsController extends Controller
     public function store(StoreCaseRecordsRequest $request)
     {
         //
+        $this->authorize('create', CaseRecords::class);
         $data = $request->validated();
         $data['created_by'] = Auth::id();
 
@@ -57,6 +67,8 @@ class CaseRecordsController extends Controller
     public function show(CaseRecords $caseRecords)
     {
         //
+        $this->authorize('view', $caseRecords);
+
         return view('cases.show', ['case' => $caseRecords]);
     }
 
@@ -66,6 +78,8 @@ class CaseRecordsController extends Controller
     public function edit(CaseRecords $caseRecords)
     {
         //
+        $this->authorize('update', $caseRecords);
+
         $clients = Client::all();
         $categories = Category::all();
         $workers = User::where('role', 'case_worker')->get();
@@ -80,6 +94,8 @@ class CaseRecordsController extends Controller
     public function update(StoreCaseRecordsRequest $request, CaseRecords $caseRecords)
     {
         //
+        $this->authorize('update', $caseRecords);
+
         $caseRecords->update($request->validated());
 
         return redirect("/cases/{$caseRecords->id}");
@@ -91,6 +107,8 @@ class CaseRecordsController extends Controller
     public function destroy(CaseRecords $caseRecords)
     {
         //
+        $this->authorize('delete', $caseRecords);
+
         $caseRecords->delete();
 
         return redirect('/cases');

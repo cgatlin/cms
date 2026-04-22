@@ -6,13 +6,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCaseNoteRequest;
 use App\Models\CaseRecords;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 
 class CaseNoteController extends Controller
 {
+    use AuthorizesRequests;
+
     //
     public function store(StoreCaseNoteRequest $request, CaseRecords $caseRecords)
     {
+        $this->authorize('view', $caseRecords);
 
         $caseRecords->notes()->create([
             'note' => $request->validated('note'),

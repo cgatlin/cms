@@ -8,18 +8,21 @@
         <h1>
             {{ $case->title }}
 
-            @if (auth()->user()->role === 'admin')
+            
                 <div>
-                    <a class="btn btn-xs btn-warning text-neutral" href="/cases/{{ $case->id }}/edit">Edit</a>
+                    @can('update', $case)
+                        <a class="btn btn-xs btn-warning text-neutral" href="/cases/{{ $case->id }}/edit">Edit</a>
+                    @endcan
+                    @can('delete', $case)
+                        <form action="/cases/{{ $case->id }}" method="POST" style="display: inline-block;">
+                            @csrf
+                            @method('DELETE')
 
-                    <form action="/cases/{{ $case->id }}" method="POST" style="display: inline-block;">
-                        @csrf
-                        @method('DELETE')
-
-                        <button class="btn btn-xs btn-error text-neutral" type="submit">Delete</button>
-                    </form>
+                            <button class="btn btn-xs btn-error text-neutral" type="submit">Delete</button>
+                        </form>
+                     @endcan
                 </div>
-            @endif
+           
         </h1>
     </div>
 
