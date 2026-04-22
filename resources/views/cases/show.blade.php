@@ -1,5 +1,6 @@
 @props([
     'case' => [],
+    'timeline' => 0,
 ])
 
 <x-layout active="cases">
@@ -54,19 +55,24 @@
     </div>
 
 
-    <ul class="list text-base-content flex items-center justify-center">
+    <ul class="timeline timeline-vertical">
         @foreach ($case->notes->sortByDesc('created_at') as $note )
-            <li class="list-row bg-base-100 rounded-box shadow-md p-2 m-2">
-                <a class="link" href="/notes/{{ $note->id }}">
-                   <div>
-                        <p>{{ $note->note }}</p>
-                        <small>
-                            By {{ $note->user->name }} |
-                            {{ $note->created_at->diffForHumans() }}
-                        </small>
-                    </div>
-                </a>
+            <li class="text-base-content">
+                <hr/>
+                <div class="{{ $timeline % 2 ? 'timeline-start' : 'timeline-end'}}  timeline-box">
+                    <a class="link" href="/notes/{{ $note->id }}">
+                        <time class="font-mono italic">{{ $note->created_at->diffForHumans() }}</time>
+                        <div>
+                            <p>{{ $note->note }}</p>
+                            <small>
+                                By {{ $note->user->name }}
+                            </small>
+                        </div>
+                    </a>
+                </div>
+                <hr/>
             </li>
+            @php $timeline++; @endphp
         @endforeach
     </ul>
 
