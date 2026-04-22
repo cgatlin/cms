@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\CaseNoteController;
 use App\Http\Controllers\CaseRecordsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\SessionController;
@@ -32,7 +33,9 @@ Route::delete('/users/{user}', [UserController::class, 'destroy']);
 Route::get('/cases', [CaseRecordsController::class, 'index']);
 Route::get('/cases/create', [CaseRecordsController::class, 'create']);
 Route::post('/cases', [CaseRecordsController::class, 'store']);
-Route::get('/cases/{caseRecords}', [CaseRecordsController::class, 'show']);
+Route::get('/cases/{caseRecords}', [CaseRecordsController::class, 'show'])->name('cases.show');
 Route::get('/cases/{caseRecords}/edit', [CaseRecordsController::class, 'edit']);
 Route::patch('/cases/{caseRecords}', [CaseRecordsController::class, 'update']);
 Route::delete('/cases/{caseRecords}', [CaseRecordsController::class, 'destroy']);
+
+Route::post('/cases/{caseRecords}/notes', [CaseNoteController::class, 'store']);
