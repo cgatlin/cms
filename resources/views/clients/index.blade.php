@@ -11,7 +11,7 @@
 
     <ul class="list text-base-content flex items-center justify-center">
         @foreach ($clients as $client )
-            <li class="bg-base-100 rounded-box p-2 m-2">
+            <li class="bg-primary text-primary-content rounded-box p-2 m-2">
                 <a class="link" href="/clients/{{ $client->id }}">
                     {{ $client->first_name }} {{ $client->last_name }}
                 </a>

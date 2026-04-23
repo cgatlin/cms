@@ -8,15 +8,9 @@
             <a class="btn btn-xs btn-info text-neutral" href="/cases/create">Create</a>
         </div>
     @endif
-
-    <ul class="list text-base-content flex items-center justify-center">
-        @foreach ($caseRecords as $caseRecord )
-            <li class="bg-base-100 rounded-box p-2 m-2">
-                <a class="link" href="/cases/{{ $caseRecord->id }}">
-                    {{ $caseRecord->title }}
-                </a>
-            </li>
+<div class="grid grid-cols-6 gap-2 m-4">
+        @foreach ($caseRecords->sortByDesc('created_at') as $caseRecord )
+            <x-card.case :caseRecord="$caseRecord"/>
         @endforeach
-    </ul>
-
+</div>
 </x-layout>

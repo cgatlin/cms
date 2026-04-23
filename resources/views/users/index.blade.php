@@ -10,9 +10,9 @@
         </div>
     @endif
 
-    <ul class="list text-base-content flex items-center justify-center">
+    <ul class="list flex items-center justify-center">
         @foreach ($users as $user )
-            <li class="bg-base-100 rounded-box p-2 m-2">
+            <li class="bg-primary text-primary-content rounded-box p-2 m-2">
                 <a class="link" href="/users/{{ $user->id }}">
                     {{ $user->name }}
                 </a>

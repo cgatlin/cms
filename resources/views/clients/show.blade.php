@@ -27,9 +27,9 @@
     </div>
 
 
-    <ul class="list text-base-content flex items-center justify-center">
+    <ul class="list flex items-center justify-center">
         @foreach ($client->cases as $case )
-            <li class="list-row bg-base-100 rounded-box shadow-md p-2 m-2">
+            <li class="list-row bg-primary text-primary-content rounded-box shadow-md p-2 m-2">
                 <a class="link" href="/cases/{{ $case->id }}">
                     {{ $case->title }}
                 </a>

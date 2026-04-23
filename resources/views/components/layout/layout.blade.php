@@ -24,11 +24,11 @@
         
     </head>
 
-    <body class="bg-primary text-primary text-primary-content">
+    <body class="">
         <x-layout.navbar />
         
         <main class="main-content text-center">
-            <div class="p-4 border-b">
+            <div class="bg-primary text-primary-content p-4 border-b">
                 @auth
                     <ul class="menu menu-horizontal px-1">
                         <li><a class="link text-lg {{ $active === 'dashboard' ? 'bg-primary-content text-primary' : '' }}" href="/dashboard">Dashboard</a></li>
@@ -41,7 +41,7 @@
             </div>
             {{ $slot }}
         </main>    
-        <footer class="footer flex items-end justify-end p-4 bg-secondary">
+        <footer class="footer flex items-end justify-end p-4">
         </footer>
     </body>
 </html>

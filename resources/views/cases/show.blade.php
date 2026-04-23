@@ -8,8 +8,6 @@
     <div>
         <h1>
             {{ $case->title }}
-
-            
                 <div>
                     @can('update', $case)
                         <a class="btn btn-xs btn-warning text-neutral" href="/cases/{{ $case->id }}/edit">Edit</a>
@@ -59,7 +57,7 @@
         @foreach ($case->notes->sortByDesc('created_at') as $note )
             <li class="text-base-content">
                 <hr/>
-                <div class="{{ $timeline % 2 ? 'timeline-start' : 'timeline-end'}}  timeline-box">
+                <div class="{{ $timeline % 2 ? 'timeline-start' : 'timeline-end'}}  timeline-box bg-primary text-primary-content">
                     <a class="link" href="/notes/{{ $note->id }}">
                         <time class="font-mono italic">{{ $note->created_at->diffForHumans() }}</time>
                         <div>
