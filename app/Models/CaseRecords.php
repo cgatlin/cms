@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\CaseRecordsStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 #[Fillable([
     'title',
@@ -18,6 +20,14 @@ use Illuminate\Database\Eloquent\Model;
 ])]
 class CaseRecords extends Model
 {
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'status' => CaseRecordsStatus::class,
+        ];
+    }
+
     public function assignedUser()
     {
         return $this->belongsTo(User::class, 'assigned_to');
