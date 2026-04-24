@@ -3,12 +3,15 @@
 ])
 @use('App\CaseRecordsStatus')
 
-<div class="card bg-primary text-primary-content shadow-sm">
+<div class="card bg-primary text-primary-content shadow-md">
   <div class="card-body">
     <h2 class="card-title">
         <p class="text-sm">
             {{ $caseRecord->title }}
         </p>
+        @if ($caseRecord->assigned_to === null)
+            <div class="badge badge-xs badge-error">UnAssigned</div>
+        @endif
     </h2>
     <div>
       @can('view', $caseRecord)
@@ -31,6 +34,7 @@
     <div class="card-actions justify-end">
       <div @class([
           'badge',
+          'badge-xs',
           'badge-error' => $caseRecord->status === CaseRecordsStatus::CLOSED,
           'badge-info' => $caseRecord->status === CaseRecordsStatus::IN_PROGRESS,
           'badge-success' => $caseRecord->status === CaseRecordsStatus::OPEN,

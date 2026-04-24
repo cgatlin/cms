@@ -23,9 +23,11 @@ class CaseRecordsController extends Controller
     {
         //
         if (auth()->user()->isAdmin()) {
-            $caseRecords = CaseRecords::all();
+            $caseRecords = CaseRecords::orderByRaw('CASE WHEN assigned_to IS NULL THEN 0 ELSE 1 END')
+                ->orderBy('opened_at', 'desc')
+                ->get();
         } else {
-            $caseRecords = CaseRecords::where('assigned_to', auth()->id())->get();
+            $caseRecords = CaseRecords::where('assigned_to', auth()->id())->orderBy('opened_at', 'desc')->get();
         }
 
         return view('cases.index', ['caseRecords' => $caseRecords]);
