@@ -3,6 +3,7 @@
     'clients' => [],
     'workers' => [],
 ])
+@use('App\CaseRecordsStatus')
 
 <x-layout active='cases'>
 
@@ -105,9 +106,9 @@
 
             <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
                 <select class="select shadow appearance-none border border-black rounded w-full py-2 px-3 bg-white text-gray-700" name="status" id="status" required>
-                    <option value="open">Open</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="closed">Closed</option>
+                    <option value={{ CaseRecordsStatus::OPEN }}>{{ CaseRecordsStatus::OPEN->label() }}</option>
+                    <option value={{ CaseRecordsStatus::IN_PROGRESS }}>{{ CaseRecordsStatus::IN_PROGRESS->label() }}</option>
+                    <option value={{ CaseRecordsStatus::CLOSED }}>{{ CaseRecordsStatus::CLOSED->label() }}</option>
                 </select>
             </label>
             @if ($errors->has('status'))
