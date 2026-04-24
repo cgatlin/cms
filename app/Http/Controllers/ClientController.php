@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\CaseRecordsStatus;
 use App\Http\Requests\StoreClientRequest;
 use App\Models\Client;
 
@@ -15,7 +16,21 @@ class ClientController extends Controller
     public function index()
     {
         //
-        $clients = Client::all();
+        $clients = Client::withcount([
+            // Count Open cases
+            'cases as open_count' => function ($query) {
+                $query->where('status', CaseRecordsStatus::OPEN);
+            },
+            // Count In-Progress cases
+            'cases as progress_count' => function ($query) {
+                $query->where('status', CaseRecordsStatus::IN_PROGRESS);
+            },
+            // Count Closed cases
+            'cases as closed_count' => function ($query) {
+                $query->where('status', CaseRecordsStatus::CLOSED);
+            },
+        ])
+            ->get();
 
         return view('clients.index', ['clients' => $clients]);
     }

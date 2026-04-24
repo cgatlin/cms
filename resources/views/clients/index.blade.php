@@ -9,14 +9,10 @@
         </div>
     @endif
 
-    <ul class="list text-base-content flex items-center justify-center">
+    <div class="grid grid-cols-5 gap-2 m-4">
         @foreach ($clients as $client )
-            <li class="bg-primary text-primary-content rounded-box p-2 m-2">
-                <a class="link" href="/clients/{{ $client->id }}">
-                    {{ $client->first_name }} {{ $client->last_name }}
-                </a>
-            </li>
+            <x-card.client :client="$client"/>
         @endforeach
-    </ul>
+    </div>
 
 </x-layout>
