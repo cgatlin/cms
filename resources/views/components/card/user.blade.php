@@ -25,20 +25,22 @@
     <p class="text-xs">{{ $user->email }}</p>
     <p class="text-xs">Cases:</p>
 
-    <a class="btn btn-xs">
-        {{ CaseRecordsStatus::OPEN->label() }} 
-        <div class="badge badge-xs badge-error">{{ $user->open_count }}</div>
-    </a>
-    
-    <a class="btn btn-xs">
-        {{ CaseRecordsStatus::IN_PROGRESS->label() }}
-        <div class="badge badge-xs badge-info">{{ $user->progress_count }}</div>
-    </a>
-    
-    <a class="btn btn-xs">
-        {{ CaseRecordsStatus::CLOSED->label() }}
-        <div class="badge badge-xs badge-success">{{ $user->closed_count }}</div>
-    </a>
+    <div class="card-actions justify-center">
+        <a class="btn btn-xs">
+            {{ CaseRecordsStatus::OPEN->label() }} 
+            <div class="badge badge-xs badge-error">{{ $user->open_count }}</div>
+        </a>
+        
+        <a class="btn btn-xs">
+            {{ CaseRecordsStatus::IN_PROGRESS->label() }}
+            <div class="badge badge-xs badge-info">{{ $user->progress_count }}</div>
+        </a>
+        
+        <a class="btn btn-xs">
+            {{ CaseRecordsStatus::CLOSED->label() }}
+            <div class="badge badge-xs badge-success">{{ $user->closed_count }}</div>
+        </a>
+    </div>
 
     <div class="card-actions justify-end">
       <p class="text-xs"><a class="btn btn-outline btn-xs btn-info" href="/cases?user={{ $user->id }}">View Cases</a></p>

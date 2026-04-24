@@ -9,10 +9,12 @@
         <p class="text-sm">
             {{ $caseRecord->title }}
         </p>
-        @if ($caseRecord->assigned_to === null)
-            <div class="badge badge-xs badge-error">UnAssigned</div>
-        @endif
     </h2>
+        @if ($caseRecord->assigned_to === null)
+            <div class="card-actions justify-center">
+                <div class=" badge badge-xs badge-error">UnAssigned</div>
+            </div>
+        @endif
     <div>
       @can('view', $caseRecord)
           <a class="btn btn-outline btn-xs btn-info" href="/cases/{{ $caseRecord->id }}">View</a>
