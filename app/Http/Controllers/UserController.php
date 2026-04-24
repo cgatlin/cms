@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\CaseRecordsStatus;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 
@@ -15,7 +16,21 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users = User::all();
+        $users = User::withcount([
+            // Count Open cases
+            'assignedCases as open_count' => function ($query) {
+                $query->where('status', CaseRecordsStatus::OPEN);
+            },
+            // Count In-Progress cases
+            'assignedCases as progress_count' => function ($query) {
+                $query->where('status', CaseRecordsStatus::IN_PROGRESS);
+            },
+            // Count Closed cases
+            'assignedCases as closed_count' => function ($query) {
+                $query->where('status', CaseRecordsStatus::CLOSED);
+            },
+        ])
+            ->get();
 
         return view('users.index', ['users' => $users]);
     }

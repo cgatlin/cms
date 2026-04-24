@@ -10,14 +10,10 @@
         </div>
     @endif
 
-    <ul class="list flex items-center justify-center">
+     <div class="grid grid-cols-5 gap-2 m-4">
         @foreach ($users as $user )
-            <li class="bg-primary text-primary-content rounded-box p-2 m-2">
-                <a class="link" href="/users/{{ $user->id }}">
-                    {{ $user->name }}
-                </a>
-            </li>
+            <x-card.user :user="$user"/>
         @endforeach
-    </ul>
+    </div>
 
 </x-layout>
