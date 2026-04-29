@@ -37,9 +37,9 @@
       <div @class([
           'badge',
           'badge-xs',
-          'badge-error' => $caseRecord->status === CaseRecordsStatus::CLOSED,
+          'badge-success' => $caseRecord->status === CaseRecordsStatus::CLOSED,
           'badge-info' => $caseRecord->status === CaseRecordsStatus::IN_PROGRESS,
-          'badge-success' => $caseRecord->status === CaseRecordsStatus::OPEN,
+          'badge-error' => $caseRecord->status === CaseRecordsStatus::OPEN,
       ])>
         {{ $caseRecord->status->label() }}
       </div>
