@@ -7,16 +7,20 @@ namespace App\Http\Controllers;
 use App\CaseRecordsStatus;
 use App\Http\Requests\StoreClientRequest;
 use App\Models\Client;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $clients = Client::withcount([
+        $client = $request->input('client');
+        $clientName = 'All';
+
+        $query = Client::withcount([
             // Count Open cases
             'cases as open_count' => function ($query) {
                 $query->where('status', CaseRecordsStatus::OPEN);
@@ -29,10 +33,26 @@ class ClientController extends Controller
             'cases as closed_count' => function ($query) {
                 $query->where('status', CaseRecordsStatus::CLOSED);
             },
-        ])
-            ->get();
+        ]);
 
-        return view('clients.index', ['clients' => $clients]);
+        if ($request->client && $request->client !== 'ALL') {
+            $query->where('id', $client);
+
+            $clientTemp = Client::findOrFail($client);
+
+            $clientName = "$clientTemp->first_name".' '."$clientTemp->last_name";
+        }
+
+        $clients = $query->get();
+
+        $clientsAll = Client::all();
+
+        return view('clients.index', [
+            'clients' => $clients,
+            'client' => $client,
+            'clientName' => $clientName,
+            'clientsAll' => $clientsAll,
+        ]);
     }
 
     /**

@@ -45,7 +45,7 @@
     </div>
 
     <div class="card-actions justify-end">
-      <p class="text-xs"><a class="btn btn-outline btn-xs btn-info" href="/cases?client={{ $client->id }}">View Cases</a></p>
+      <p class="text-xs"><a class="btn btn-outline btn-xs btn-info" href="/cases?search={{ $client->first_name }} {{ $client->last_name }}">View Cases</a></p>
     </div>
   </div>
 </div>

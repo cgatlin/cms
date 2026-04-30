@@ -34,9 +34,9 @@ class CaseRecordsController extends Controller
 
             if ($request->assigned && $request->assigned !== 'ALL') {
                 $query->where('assigned_to', $assigned);
-            }
 
-            $worker = User::where('id', $assigned)->first()->name;
+                $worker = User::where('id', $assigned)->first()->name;
+            }
 
         } else {
             $query = CaseRecords::where('assigned_to', auth()->id());
@@ -56,7 +56,8 @@ class CaseRecordsController extends Controller
                     ->orWhere('description', 'like', "%{$search}%")
                     ->orWhereHas('client', function ($q2) use ($search) {
                         $q2->where('first_name', 'like', "%{$search}%")
-                            ->orWhere('last_name', 'like', "%{$search}%");
+                            ->orWhere('last_name', 'like', "%{$search}%")
+                            ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search}%"]);
                     });
             });
         }
