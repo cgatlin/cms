@@ -7,16 +7,22 @@ namespace App\Http\Controllers;
 use App\CaseRecordsStatus;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $users = User::withcount([
+        $assigned = $request->input('assigned');
+        $worker = 'ALL';
+
+        $workers = User::where('role', 'case_worker')->get();
+
+        $query = User::withcount([
             // Count Open cases
             'assignedCases as open_count' => function ($query) {
                 $query->where('status', CaseRecordsStatus::OPEN);
@@ -29,10 +35,22 @@ class UserController extends Controller
             'assignedCases as closed_count' => function ($query) {
                 $query->where('status', CaseRecordsStatus::CLOSED);
             },
-        ])
-            ->get();
+        ])->where('role', 'case_worker');
 
-        return view('users.index', ['users' => $users]);
+        if ($request->assigned && $request->assigned !== 'ALL') {
+            $query->where('id', $assigned);
+
+            $worker = User::where('id', $assigned)->first()->name;
+        }
+
+        $users = $query->get();
+
+        return view('users.index', [
+            'users' => $users,
+            'workers' => $workers,
+            'assigned' => $assigned,
+            'worker' => $worker,
+        ]);
     }
 
     /**
