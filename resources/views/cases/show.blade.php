@@ -34,27 +34,94 @@
     <p>Status: {{ $case->status }}</p>
     <p>Assigned: {{ $case->assignedUser->name ?? 'Unassigned' }}</p>
 
-    <h3>Add Note:</h3>
-    <div class="flex items-center justify-center text-base-content">
-        <form class="px-8 pt-6 pb-8 mb-4 mt-2" method="POST" action="/cases/{{ $case->id }}/notes">
-            @csrf
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="note">
-                <textarea class="textarea shadow appearance-none border border-black rounded w-full py-2 px-3 bg-white text-gray-700" name="note" required placeholder="Write a note..."></textarea>
-            </label>
-            <button class="btn btn-soft btn-primary" type="submit">Add Note</button>
-            @if ($errors->any())
-                <div>
-                    @foreach ($errors->all() as $error)
-                        <p class="alert alert-outline max-sm:alert-vertical alert-error text-xs font-bold m-1">{{ $error }}</p>
-                    @endforeach
-                </div>
-            @endif
-        </form>
+    <div class="flex items-center justify-center">
+        <span>
+            <h3>Add Note:</h3>
+            <div class="flex items-center justify-center text-base-content">
+                <form class="px-8 pt-6 pb-8 mb-4 mt-2" method="POST" action="/cases/{{ $case->id }}/notes">
+                    @csrf
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="note">
+                        <textarea class="textarea shadow appearance-none border border-black rounded w-full py-2 px-3 bg-white text-gray-700" name="note" required placeholder="Write a note..."></textarea>
+                    </label>
+                    <button class="btn btn-soft btn-primary" type="submit">Add Note</button>
+                    @if ($errors->any())
+                        <div>
+                            @foreach ($errors->all() as $error)
+                                <p class="alert alert-outline max-sm:alert-vertical alert-error text-xs font-bold m-1">{{ $error }}</p>
+                            @endforeach
+                        </div>
+                    @endif
+                </form>
+            </div>
+        </span>
+
+        <span>
+            <h3>Add Task:</h3>
+            <div class="flex items-center justify-center text-base-content">
+                <form class="px-8 pt-6 pb-8 mb-4 mt-2" method="POST" action="/cases/{{ $case->id }}/tasks">
+                    @csrf
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
+                        <input type="text" name="title" placeholder="Task title" required>
+                    </label>
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+                        <textarea class="textarea shadow appearance-none border border-black rounded w-full py-2 px-3 bg-white text-gray-700" name="description" placeholder="Details..."></textarea>
+                    </label>
+
+                    {{-- <select name="assigned_to">
+                        <option value="">Unassigned</option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select> --}}
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="due_date">
+                        <input type="date" name="due_date">
+                    </label>
+                    @if ($errors->any())
+                        <div>
+                            @foreach ($errors->all() as $error)
+                                <p class="alert alert-outline max-sm:alert-vertical alert-error text-xs font-bold m-1">{{ $error }}</p>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    
+
+                    <button class="btn btn-soft btn-primary" type="submit">Add Task</button>
+                </form>
+            </div>
+        </span>
     </div>
 
+    
+    <ul class="timeline timeline-horizontal flex items-center justify-center">
+        @forelse ($case->tasks as $task )
+            <li class="text-base-content">
+                <hr/>
+                <div class="{{ $timeline % 2 ? 'timeline-start' : 'timeline-end'}}  timeline-box bg-primary text-primary-content">
+                    <a class="link" href="/tasks/{{ $task->id }}">
+                        <time class="font-mono italic">Due By: {{ $task->due_date?$task->due_date->diffForHumans(now()->startOfDay()):'No Deadline' }}</time>
+                        <div>
+                            <p>{{ $task->title }}</p>
+                            <p>{{ $task->description }}</p>
+                            <small>
+                                {{ $task->is_completed?'Completed':'Incomplete' }}
+                            </small>
+                        </div>
+                    </a>
+                </div>
+                <hr/>
+            </li>
+            @php $timeline++; @endphp
+        @empty
+            <p>No current tasks for this case.</p>
+        @endforelse
+    </ul>
 
     <ul class="timeline timeline-vertical">
-        @foreach ($case->notes->sortByDesc('created_at') as $note )
+        @forelse ($case->notes->sortByDesc('created_at') as $note )
             <li class="text-base-content">
                 <hr/>
                 <div class="{{ $timeline % 2 ? 'timeline-start' : 'timeline-end'}}  timeline-box bg-primary text-primary-content">
@@ -71,7 +138,9 @@
                 <hr/>
             </li>
             @php $timeline++; @endphp
-        @endforeach
+        @empty
+            <p>No notes for this case.</p>
+        @endforelse
     </ul>
 
 </x-layout>

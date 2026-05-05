@@ -7,6 +7,7 @@ use App\Http\Controllers\CaseRecordsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cases/{caseRecords}', [CaseRecordsController::class, 'destroy']);
 
     Route::post('/cases/{caseRecords}/notes', [CaseNoteController::class, 'store']);
+
+    Route::post('/cases/{caseRecords}/tasks', [TaskController::class, 'store']);
+    Route::patch('/tasks/{task}/complete', [TaskController::class, 'complete']);
+    Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
 });

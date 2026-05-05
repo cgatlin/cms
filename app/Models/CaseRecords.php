@@ -52,4 +52,9 @@ class CaseRecords extends Model
     {
         return $this->hasMany(CaseNote::class, 'case_id');
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'case_id');
+    }
 }
