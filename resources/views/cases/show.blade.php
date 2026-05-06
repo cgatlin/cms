@@ -95,24 +95,67 @@
         </span>
     </div>
 
-    
-    <ul class="timeline timeline-horizontal flex items-center justify-center">
-        @forelse ($case->tasks as $task )
-            <li class="text-base-content">
-                <hr/>
-                <div class="{{ $timeline % 2 ? 'timeline-start' : 'timeline-end'}}  timeline-box bg-primary text-primary-content">
-                    <a class="link" href="/tasks/{{ $task->id }}">
-                        <time class="font-mono italic">Due By: {{ $task->due_date?$task->due_date->diffForHumans(now()->startOfDay()):'No Deadline' }}</time>
-                        <div>
-                            <p>{{ $task->title }}</p>
-                            <p>{{ $task->description }}</p>
-                            <small>
-                                {{ $task->is_completed?'Completed':'Incomplete' }}
-                            </small>
-                        </div>
-                    </a>
+    <p>Tasks:</p>
+    <ul class="timeline timeline-horizontal flex items-center justify-center m-4">
+        @forelse ($case->tasks->sortByDesc('created_at') as $task )
+            <li>
+
+                @php
+                    // Ensure $task->due_date is a Carbon instance
+                    $dueDate = \Carbon\Carbon::parse($task->due_date);
+                    $now = now()->startOfDay(); // Today 00:00:00
+                    
+                    // Check if it is past due or due within 2 days (0, 1, or 2 days left)
+                    // diffInDays(..., false) allows returning negative numbers for overdue
+                    $daysLeft = $now->diffInDays($dueDate->copy()->startOfDay(), false);
+                    $isWarning = $daysLeft <= 2 && !$task->is_completed;
+                    $isOverdue = $dueDate->isPast() && !$task->is_completed;
+                @endphp
+
+                <hr @class([
+                            'badge badge-success' => $task->is_completed,
+                            'badge badge-info' => !$isWarning && !$isOverdue,
+                            'badge badge-error' => $isWarning || $isOverdue,
+                            ])/>
+
+                <div @class([
+                            'timeline-start' => $timeline % 2,
+                            'timeline-end' => $timeline % 2 === 0,
+                            'timeline-box bg-primary',
+                            'text-primary-content' => $task->is_completed,
+                            'text-accent-content' => !$isWarning && !$isOverdue,
+                            'text-secondary-content' => $isWarning || $isOverdue,
+                            ])>
+
+                    <time class="font-mono italic">Due By: {{ $task->due_date?$task->due_date->diffForHumans(now()->startOfDay(), \Carbon\CarbonInterface::DIFF_RELATIVE_TO_NOW):'No Deadline' }}</time>
+                    <div>
+                        <p>{{ $task->title }}</p>
+                        <p>{{ $task->description }}</p>
+                        <p>
+
+                            {{ $task->is_completed?'Completed':'Incomplete' }}
+                        </p>
+                    </div>
+                    
+                    @if(!$task->is_completed)
+                        <form class="m-1" method="POST" action="/tasks/{{ $task->id }}/complete">
+                            @csrf
+                            @method('PATCH')
+                            <button class="btn btn-xs btn-soft btn-primary" type="submit">Mark Complete</button>
+                        </form>
+                    @endif
+
+                    <form class="m-1" method="POST" action="/tasks/{{ $task->id }}">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-xs btn-soft btn-primary" type="submit">Delete</button>
+                    </form>
                 </div>
-                <hr/>
+                <hr @class([
+                            'badge badge-success' => $task->is_completed,
+                            'badge badge-info' => !$isWarning && !$isOverdue,
+                            'badge badge-error' => $isWarning || $isOverdue,
+                            ])/>
             </li>
             @php $timeline++; @endphp
         @empty
@@ -120,6 +163,7 @@
         @endforelse
     </ul>
 
+    <p>Notes:</p>
     <ul class="timeline timeline-vertical">
         @forelse ($case->notes->sortByDesc('created_at') as $note )
             <li class="text-base-content">
