@@ -43,6 +43,14 @@
       ])>
         {{ $caseRecord->status->label() }}
       </div>
+
+      @if ($caseRecord->hasTaskOverdue())
+            <div class='badge badge-xs badge-error'>
+                Task Overdue
+            </div>
+      @endif
+      
+
     </div>
   </div>
 </div>

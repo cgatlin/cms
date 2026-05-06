@@ -57,4 +57,20 @@ class CaseRecords extends Model
     {
         return $this->hasMany(Task::class, 'case_id');
     }
+
+    public function hasTaskOverdue()
+    {
+        return $this->tasks->contains(function ($task): bool {
+            // Check if due_date exists to avoid errors
+            if (! $task->due_date) {
+                return false;
+            }
+
+            $dueDate = $task->due_date->startOfDay();
+            $today = now()->startOfDay();
+
+            // returns true if overdue (diff < 0) or due within 2 days (diff <= 2)
+            return $today->diffInDays($dueDate, false) <= 2 && ! $task->is_completed;
+        });
+    }
 }
