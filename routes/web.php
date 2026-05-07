@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => view('home'));
@@ -48,6 +49,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/cases/{caseRecords}/tasks', [TaskController::class, 'store']);
     Route::patch('/tasks/{task}/complete', [TaskController::class, 'complete']);
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
+
+    Route::get('/notifications', fn () => view('notifications.index', [
+        'notifications' => auth()->user()
+            ->notifications()
+            ->latest()
+            ->get(),
+    ]));
+    Route::post('/notifications/read', function (): RedirectResponse {
+        auth()->user()->unreadNotifications->markAsRead();
+
+        return back();
+    });
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
 });

@@ -119,8 +119,8 @@
                             ])/>
 
                 <div @class([
-                            'timeline-start' => $timeline % 2,
-                            'timeline-end' => $timeline % 2 === 0,
+                            'timeline-start' => $timeline % 2 === 0,
+                            'timeline-end' => $timeline % 2,
                             'timeline-box bg-primary',
                             'text-primary-content' => $task->is_completed,
                             'text-accent-content' => !$isWarning && !$isOverdue,

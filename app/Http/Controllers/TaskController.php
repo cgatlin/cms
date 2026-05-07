@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Models\CaseRecords;
 use App\Models\Task;
+use App\Notifications\TaskAssignedNotification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TaskController extends Controller
@@ -20,9 +21,15 @@ class TaskController extends Controller
 
         $data = $request->validated();
         // For now tasks will be assigned to case worker assign to case
-        $data['assigned_to'] = $caseRecords->assignedUser()->id ?? null;
+        $data['assigned_to'] = $caseRecords->assignedUser->id ?? null;
 
-        $caseRecords->tasks()->create($data);
+        $task = $caseRecords->tasks()->create($data);
+
+        if ($task->assigned_to) {
+            $task->assignedUser->notify(
+                new TaskAssignedNotification($task)
+            );
+        }
 
         return redirect()->route('cases.show', $caseRecords)->with('success', 'Task added.');
     }
