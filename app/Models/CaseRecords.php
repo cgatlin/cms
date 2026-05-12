@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\CaseRecordsStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Override;
 
@@ -20,6 +21,8 @@ use Override;
 ])]
 class CaseRecords extends Model
 {
+    use HasFactory;
+
     #[Override]
     protected function casts(): array
     {
