@@ -59,7 +59,7 @@
                             </div>
                         @endif
                         <div class="modal-action">
-                            <button type="submit" class="btn btn-primary">Add Note</button>
+                            <button data-testid="add-note-btn" type="submit" class="btn btn-primary">Add Note</button>
                             <button type="button" class="btn" onclick="document.getElementById('add_note_modal').close()">Cancel</button>
                         </div>
                     </form>
@@ -86,8 +86,8 @@
                                 <input class="input input-neutral" type="text" name="title" placeholder="Task title" required>
                             </label>
 
-                            <label class="label block m-2" for="note">
-                                <textarea class="textarea textarea-bordered input-neutral h-32" name="note" required placeholder="Task Details..."></textarea>
+                            <label class="label block m-2" for="description">
+                                <textarea class="textarea textarea-bordered input-neutral h-32" name="description" required placeholder="Task Details..."></textarea>
                             </label>
 
                             <label class="label block m-2" for="due_date">
@@ -102,7 +102,7 @@
                             </div>
                         @endif
                         <div class="modal-action">
-                            <button type="submit" class="btn btn-primary">Add Task</button>
+                            <button data-testid="add-task-btn" type="submit" class="btn btn-primary">Add Task</button>
                             <button type="button" class="btn" onclick="document.getElementById('add_task_modal').close()">Cancel</button>
                         </div>
                     </form>
