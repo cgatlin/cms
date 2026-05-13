@@ -34,65 +34,85 @@
     <p>Status: {{ $case->status }}</p>
     <p>Assigned: {{ $case->assignedUser->name ?? 'Unassigned' }}</p>
 
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center gap-4 m-2">
         <span>
-            <h3>Add Note:</h3>
-            <div class="flex items-center justify-center text-base-content">
-                <form class="px-8 pt-6 pb-8 mb-4 mt-2" method="POST" action="/cases/{{ $case->id }}/notes">
-                    @csrf
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="note">
-                        <textarea class="textarea shadow appearance-none border border-black rounded w-full py-2 px-3 bg-white text-gray-700" name="note" required placeholder="Write a note..."></textarea>
-                    </label>
-                    <button class="btn btn-soft btn-primary" type="submit">Add Note</button>
-                    @if ($errors->any())
-                        <div>
-                            @foreach ($errors->all() as $error)
-                                <p class="alert alert-outline max-sm:alert-vertical alert-error text-xs font-bold m-1">{{ $error }}</p>
-                            @endforeach
+            <button class="btn btn-primary" onclick="document.getElementById('add_note_modal').showModal()">Add Note</button>
+            
+            <dialog id="add_note_modal" class="modal text-black">
+                <div class="modal-box w-11/12 max-w-2xl">
+                    <form method="dialog">
+                        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    </form>
+                    <h3 class="font-bold text-lg mb-4">Add Note</h3>
+                    <form method="POST" action="/cases/{{ $case->id }}/notes">
+                        @csrf
+                        <div class="form-control">
+                            <label class="label" for="note">
+                                <textarea class="textarea textarea-bordered input-neutral h-32" name="note" required placeholder="Write a note..."></textarea>
+                            </label>
                         </div>
-                    @endif
+                        @if ($errors->any())
+                            <div class="mt-2">
+                                @foreach ($errors->all() as $error)
+                                    <p class="alert alert-error text-xs font-bold mb-1">{{ $error }}</p>
+                                @endforeach
+                            </div>
+                        @endif
+                        <div class="modal-action">
+                            <button type="submit" class="btn btn-primary">Add Note</button>
+                            <button type="button" class="btn" onclick="document.getElementById('add_note_modal').close()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <form method="dialog" class="modal-backdrop">
+                    <button>close</button>
                 </form>
-            </div>
+            </dialog>
         </span>
 
         <span>
-            <h3>Add Task:</h3>
-            <div class="flex items-center justify-center text-base-content">
-                <form class="px-8 pt-6 pb-8 mb-4 mt-2" method="POST" action="/cases/{{ $case->id }}/tasks">
-                    @csrf
+            <button class="btn btn-primary" onclick="document.getElementById('add_task_modal').showModal()">Add Task</button>
+            
+            <dialog id="add_task_modal" class="modal text-black">
+                <div class="modal-box w-11/12 max-w-2xl">
+                    <form method="dialog">
+                        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    </form>
+                    <h3 class="font-bold text-lg mb-4">Add Task</h3>
+                    <form method="POST" action="/cases/{{ $case->id }}/tasks">
+                        @csrf
+                        <div class="form-control">
+                            <label class="label block m-2" for="title">
+                                <input class="input input-neutral" type="text" name="title" placeholder="Task title" required>
+                            </label>
 
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
-                        <input type="text" name="title" placeholder="Task title" required>
-                    </label>
+                            <label class="label block m-2" for="note">
+                                <textarea class="textarea textarea-bordered input-neutral h-32" name="note" required placeholder="Task Details..."></textarea>
+                            </label>
 
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
-                        <textarea class="textarea shadow appearance-none border border-black rounded w-full py-2 px-3 bg-white text-gray-700" name="description" placeholder="Details..."></textarea>
-                    </label>
-
-                    {{-- <select name="assigned_to">
-                        <option value="">Unassigned</option>
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                        @endforeach
-                    </select> --}}
-
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="due_date">
-                        <input type="date" name="due_date">
-                    </label>
-                    @if ($errors->any())
-                        <div>
-                            @foreach ($errors->all() as $error)
-                                <p class="alert alert-outline max-sm:alert-vertical alert-error text-xs font-bold m-1">{{ $error }}</p>
-                            @endforeach
+                            <label class="label block m-2" for="due_date">
+                                <input class="input input-neutral" type="date" name="due_date">
+                            </label>
                         </div>
-                    @endif
-
-                    
-
-                    <button class="btn btn-soft btn-primary" type="submit">Add Task</button>
+                        @if ($errors->any())
+                            <div class="mt-2">
+                                @foreach ($errors->all() as $error)
+                                    <p class="alert alert-error text-xs font-bold mb-1">{{ $error }}</p>
+                                @endforeach
+                            </div>
+                        @endif
+                        <div class="modal-action">
+                            <button type="submit" class="btn btn-primary">Add Task</button>
+                            <button type="button" class="btn" onclick="document.getElementById('add_task_modal').close()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <form method="dialog" class="modal-backdrop">
+                    <button>close</button>
                 </form>
-            </div>
+            </dialog>
         </span>
+
     </div>
 
     <p>Tasks:</p>
