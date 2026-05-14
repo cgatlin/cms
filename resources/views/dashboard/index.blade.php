@@ -56,26 +56,26 @@
         <ul class="menu min-h-full w-25 text-sm">
             <!-- Sidebar content here -->
             <li>
-                <div class="stat-card">
+                <div class="stat-card card">
                     <h3>Total Cases</h3>
                     <p>{{ $caseCount->total_count }}</p>
                 </div>
             </li>
             <li>
-                <div class="stat-card">
+                <div class="stat-card card">
                     <h3>{{ CaseRecordsStatus::OPEN->label() }} Cases</h3>
                     <p>{{ $caseCount->open_count }}</p>
                 </div>
             </li>
             <li>
-                <div class="stat-card">
+                <div class="stat-card card">
                     <h3>{{ CaseRecordsStatus::IN_PROGRESS->label() }}</h3>
                     <p>{{ $caseCount->progress_count }}</p>
                 </div>
             </li>
             <li>
-                <div class="stat-card">
-                    <h3>{{ CaseRecordsStatus::CLOSED->label() }}</h3>
+                <div class="stat-card card">
+                    <h3>{{ CaseRecordsStatus::CLOSED->label() }} Cases</h3>
                     <p>{{ $caseCount->closed_count }}</p>
                 </div>
             </li>

@@ -19,13 +19,21 @@ class CaseNoteSeeder extends Seeder
         $users = User::all();
 
         foreach ($cases as $case) {
-            for ($i = 0; $i < 3; $i++) {
-                CaseNote::create([
-                    'case_id' => $case->id,
-                    'user_id' => $users->random()->id,
-                    'note' => 'Sample note for case',
-                ]);
-            }
+            CaseNote::create([
+                'case_id' => $case->id,
+                'user_id' => $case->assignedUser->id,
+                'note' => 'Spoke to Client over phone',
+            ]);
+            CaseNote::create([
+                'case_id' => $case->id,
+                'user_id' => $case->assignedUser->id,
+                'note' => 'Client requests assistance for '.$case->category->name,
+            ]);
+            CaseNote::create([
+                'case_id' => $case->id,
+                'user_id' => $case->assignedUser->id,
+                'note' => 'Working on paperwork for eligibility',
+            ]);
         }
     }
 }

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             CaseSeeder::class,
             CaseNoteSeeder::class,
+            CaseTaskSeeder::class,
         ]);
     }
 }
