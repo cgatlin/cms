@@ -16,7 +16,7 @@
     @endif
     <div class="p-2">
         <form class="text-neutral" method="GET">
-            <label class=text-neutral text-sm font-bold mb-2" for="status">Status:
+            <label class="text-neutral text-sm font-bold mb-2" for="status">Status:
                 <select class="select shadow bg-primary text-primary-content w-30" name="status" id="status">
                     <option value="ALL" @selected(old('status', $status) == 'All')>All</option>
                     <option value="{{ CaseRecordsStatus::OPEN->value }}" @selected(old('status', $status) == CaseRecordsStatus::OPEN->value)>{{ CaseRecordsStatus::OPEN->label() }}</option>
