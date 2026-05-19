@@ -19,10 +19,10 @@ Route::delete('/logout', [SessionController::class, 'destroy']);
 
 Route::middleware('auth')->group(function () {
     Route::middleware('can:admin-access')->group(function () {
-        Route::get('/clients', [ClientController::class, 'index']);
+        
         Route::get('/clients/create', [ClientController::class, 'create']);
         Route::post('/clients', [ClientController::class, 'store']);
-        Route::get('/clients/{client}', [ClientController::class, 'show']);
+        
         Route::get('/clients/{client}/edit', [ClientController::class, 'edit']);
         Route::patch('/clients/{client}', [ClientController::class, 'update']);
         Route::delete('/clients/{client}', [ClientController::class, 'destroy']);
@@ -34,7 +34,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/users/{user}/edit', [UserController::class, 'edit']);
         Route::patch('/users/{user}', [UserController::class, 'update']);
         Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+        Route::get('/report', [DashboardController::class, 'report']);
+        Route::post('/report', [DashboardController::class, 'exportReport']);
     });
+
+    Route::get('/clients', [ClientController::class, 'index']);
+    Route::get('/clients/{client}', [ClientController::class, 'show']);
 
     Route::get('/cases', [CaseRecordsController::class, 'index']);
     Route::get('/cases/create', [CaseRecordsController::class, 'create']);

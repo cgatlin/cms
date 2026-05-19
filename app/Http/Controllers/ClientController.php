@@ -43,6 +43,12 @@ class ClientController extends Controller
             $clientName = "$clientTemp->first_name".' '."$clientTemp->last_name";
         }
 
+         if (!auth()->user()->isAdmin()) {
+                $query->whereHas('cases', function ($q) {
+                    $q->where('assigned_to', auth()->user()->id);
+                });
+         }
+
         $clients = $query->get();
 
         $clientsAll = Client::all();

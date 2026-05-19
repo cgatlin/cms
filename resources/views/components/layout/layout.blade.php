@@ -32,10 +32,12 @@
                 @auth
                     <ul class="menu menu-horizontal px-1">
                         <li><a class="link text-lg {{ $active === 'dashboard' ? 'bg-primary-content text-primary' : '' }}" href="/dashboard">Dashboard</a></li>
-                        <li><a class="link text-lg {{ $active === 'clients' ? 'bg-primary-content text-primary' : '' }}" href="/clients">Clients</a></li>
                         <li><a class="link text-lg {{ $active === 'cases' ? 'bg-primary-content text-primary' : '' }}" href="/cases">Cases</a></li>
-                        <li><a class="link text-lg {{ $active === 'reports' ? 'bg-primary-content text-primary' : '' }}" href="/reports">Reports</a></li>
-                        <li><a class="link text-lg {{ $active === 'users' ? 'bg-primary-content text-primary' : '' }}" href="/users">Users</a></li> 
+                        <li><a class="link text-lg {{ $active === 'clients' ? 'bg-primary-content text-primary' : '' }}" href="/clients">Clients</a></li>
+                        @if (auth()->user()->role === 'admin')
+                            <li><a class="link text-lg {{ $active === 'reports' ? 'bg-primary-content text-primary' : '' }}" href="/reports">Reports</a></li>
+                            <li><a class="link text-lg {{ $active === 'users' ? 'bg-primary-content text-primary' : '' }}" href="/users">Users</a></li> 
+                        @endif
                     </ul>
                 @endauth
             </div>
