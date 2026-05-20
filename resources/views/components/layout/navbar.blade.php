@@ -2,7 +2,7 @@
   <div class="flex-1"> 
     <a class="btn btn-ghost text-xl" href="/">
       <div class="w-auto h-20 overflow-hidden">
-        <img src="{{ asset('build/assets/img/logo.png') }}" 
+        <img src="{{ asset('img/logo.png') }}" 
           class="w-full h-full object-scale-down object-center"
           alt="Logo">
       </div>

@@ -18,11 +18,11 @@ It focuses on:
 
 **Core Functionality**
 
-- [ ] Create, view, update, and delete cases
-- [ ] Assign cases to users (case workers/admins)
-- [ ] Track case status (Open, In Progress, Closed)
-- [ ] Add notes or updates to cases (case history)
-- [ ] Filter and search cases
+- [x] Create, view, update, and delete cases
+- [x] Assign cases to users (case workers/admins)
+- [x] Track case status (Open, In Progress, Closed)
+- [x] Add notes or updates to cases (case history)
+- [x] Filter and search cases
 
 **User Roles**
 
@@ -63,6 +63,14 @@ It focuses on:
 - Case workers can update assigned cases
 - Use filters/search to manage large case lists
 
+Admin: 
+- admin@ivfs.com 
+- password
+
+Case Worker:
+- cworker@ivfs.com 
+- password
+
 ## Project Goals
 
 This project is part of a structured career restart plan and demonstrates:
@@ -81,4 +89,77 @@ This project is part of a structured career restart plan and demonstrates:
 - Advanced reporting and exports (CSV/PDF)
 - Unit and feature testing
 
-## **Screenshots (Coming Soon)**
+## **Screenshots**
+
+
+## Dashboard
+View of Dashboard showcasing Recent Cases, Total Cases and thier status.
+<img src="docs/images/dashboard.png" alt="Dashboard Screenshot ">
+
+## Messages
+View of Case Workers in App Messages
+<img src="docs/images/message.png" alt="Messages Screenshot">
+
+
+## Cases
+Listing of all Cases with some optional filtering.
+<img src="docs/images/cases-01.png" alt="Course Screenshot 1">
+View of a Case info, with a horizontal timeline of Tasks and vertical timeline of Notes.
+<img src="docs/images/cases-02.png" alt="Course Screenshot 2">
+
+
+
+## ** Install **
+
+- Clone Repo
+```
+   git clone https://github.com/cgatlin/cms.git
+   cd cms
+```
+- Install Dependancies
+```
+   composer install
+   npm install
+```
+- Enviroment setup
+```
+   cp .env.example .env
+   php artisan key:generate
+```
+- Database setup (if Not using sqlite)
+   - edit .env
+```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=case_management_system
+   DB_USERNAME=root
+   DB_PASSWORD=your_password
+```
+   - run migration and seeders
+```
+   php artisan migrate:fresh --seed
+```
+- Build FrontEnd Assets
+```
+npm run build
+```
+- Start Server
+```
+php artisan serve
+```
+Application will run at:
+http://127.0.0.1:8000
+
+- Optional Command for Messages
+```
+php artisan app:send-task-reminders
+```
+## Demo Login Credentials
+Admin: 
+- admin@ivfs.com 
+- password
+
+Case Worker:
+- cworker@ivfs.com 
+- password
