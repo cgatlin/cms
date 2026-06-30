@@ -3,7 +3,10 @@
 use App\Models\CaseRecords;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\Task;
 use App\Models\User;
+use App\Notifications\TaskAssignedNotification;
+use Illuminate\Support\Facades\Notification;
 
 it('admin can create case', function () {
     $this->actingAs($admin = User::factory()->create(['role' => 'admin']));
@@ -146,6 +149,87 @@ it('case worker can edit assigned cases', function () {
 
     $this->get('/cases/'.$record2->id.'/edit')
         ->assertStatus(403);
+});
+
+it('case worker can not add note to unassigned case', function () {
+    $this->actingAs($worker = User::factory()->create());
+    $worker2 = User::factory()->create();
+
+    $client = Client::factory()->create();
+    Category::create(['name' => 'Housing']);
+
+    $record = CaseRecords::factory()->create([
+        'title' => 'For '.$worker2->name,
+        'assigned_to' => $worker2->id,
+        'client_id' => $client->id,
+        'category_id' => Category::first()->id,
+        'created_by' => $worker2->id,
+    ]);
+
+    $this->post('/cases/'.$record->id.'/notes', [
+        'note' => 'Unauthorized note',
+    ])->assertStatus(403);
+
+    $this->assertDatabaseMissing('case_notes', [
+        'case_id' => $record->id,
+        'note' => 'Unauthorized note',
+    ]);
+});
+
+it('case worker can create task and send notification', function () {
+    Notification::fake();
+
+    $this->actingAs($worker = User::factory()->create());
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    $client = Client::factory()->create();
+    $category = Category::create(['name' => 'Housing']);
+
+    $record = CaseRecords::factory()->create([
+        'title' => 'For '.$worker->name,
+        'assigned_to' => $worker->id,
+        'client_id' => $client->id,
+        'category_id' => $category->id,
+        'created_by' => $admin->id,
+    ]);
+
+    $this->post('/cases/'.$record->id.'/tasks', [
+        'title' => 'Assigned Task',
+        'description' => 'Task description',
+        'due_date' => now()->addDay()->format('Y-m-d'),
+    ])->assertRedirect('/cases/'.$record->id);
+
+    $this->assertDatabaseHas('tasks', [
+        'case_id' => $record->id,
+        'title' => 'Assigned Task',
+        'description' => 'Task description',
+        'assigned_to' => $worker->id,
+    ]);
+
+    Notification::assertSentTo(
+        $worker,
+        TaskAssignedNotification::class,
+        fn ($notification) => $notification->toDatabase($worker)['case_id'] === $record->id
+    );
+});
+
+it('admin can delete case', function () {
+    $this->actingAs($admin = User::factory()->create(['role' => 'admin']));
+
+    $client = Client::factory()->create();
+    $category = Category::create(['name' => 'Housing']);
+
+    $record = CaseRecords::factory()->create([
+        'assigned_to' => $admin->id,
+        'client_id' => $client->id,
+        'category_id' => $category->id,
+        'created_by' => $admin->id,
+    ]);
+
+    $this->delete('/cases/'.$record->id)
+        ->assertRedirect('/cases');
+
+    $this->assertDatabaseMissing('case_records', ['id' => $record->id]);
 });
 
 it('case worker can notes', function () {
